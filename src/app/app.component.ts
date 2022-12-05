@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 
 import { isNumber, isOperator, toOperation } from './utilities/Functions';
+import { keys } from './utilities/Keys';
 
 @Component({
 	selector: 'app-root',
@@ -9,18 +10,27 @@ import { isNumber, isOperator, toOperation } from './utilities/Functions';
 })
 export class AppComponent {
 	result: number = 0;
+	keysInput = keys;
 
-	analizeInput(event: any) {
+	paintButton(event: any) {
+		/** getting results */
 		if (event.key === '=') {
 			event.preventDefault();
 			this.result = this.getTotalResult(
 				this.getNumbers(event.target.value)
 			);
 		}
+
+		/** do a better to naming variables */
+		keys.forEach((key, index) => {
+			if (key.key === event.key) {
+				keys[index].isPressed = !keys[index].isPressed;
+			}
+		});
 	}
 
 	/** user enter i.e. an 18+19 in string */
-	/** this function differences numbers from signs and do the operation */
+	/** this function differences numbers from signs */
 	getNumbers(inputUser: string) {
 		let arrCharactersSeparated: string[] = [];
 
